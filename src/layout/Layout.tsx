@@ -2,6 +2,7 @@ import { ReactNode, useContext } from 'react'
 import { Grid, GridItem } from '@chakra-ui/react';
 import Header from '../components/Header';
 import SideNav from '../components/SideNav';
+import { MerchantContextProvider } from '../core/contexts/merchantContext';
 
 interface LayoutType {
     children: ReactNode
@@ -34,7 +35,9 @@ const Layout = ({ children }: LayoutType) => {
                         overflow: 'auto'
                     }}
                 >
-                    {children}
+                    <MerchantContextProvider>
+                        {children}
+                    </MerchantContextProvider>
                 </GridItem>
                 {/* <GridItem pl='2' bg='blue.300' area={'footer'}>
                     Footer

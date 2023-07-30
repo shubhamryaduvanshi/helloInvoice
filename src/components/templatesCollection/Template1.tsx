@@ -4,9 +4,10 @@ import { BsBrowserChrome } from 'react-icons/bs';
 import { FaUser } from 'react-icons/fa';
 import { AiFillPhone } from 'react-icons/ai';
 import { MdLocationOn } from 'react-icons/md';
-import { UserContext } from '../../core/context/UserContext';
+// import { UserContext } from '../../core/context/UserContext';
 import { MerchantContextValueType } from '../../core/commonTypes';
 import { formatMobileNumber } from '../../core/utility';
+import { useMerchantContext } from '../../core/contexts/merchantContext';
 
 interface FooterComponentProps {
     mobileNumber: string,
@@ -19,7 +20,9 @@ interface TotalAndOtherInfoComponentProps {
 }
 
 const Template1 = () => {
-    const { merchant_companyName, merchant_logo, merchant_address, merchant_mobile, merchant_website, merchant_signUrl, merchant_footNote }: MerchantContextValueType = useContext(UserContext);
+    // const { state.merchant_companyName, state.merchant_logo, state.merchant_address, state.merchant_mobile, state.merchant_website, state.merchant_signUrl, state.merchant_footNote }: MerchantContextValueType = useContext(UserContext);
+    const { state } = useMerchantContext();
+
 
 
     return (
@@ -28,11 +31,11 @@ const Template1 = () => {
                 {/* Header starts here */}
                 <Flex alignItems={'center'} gap={4} px='8' pt='12'>
                     <Box h={12} w={12}>
-                        <Image src={merchant_logo} alt='companyLogo' height={'100%'} width={'100%'} objectFit={'contain'} />
+                        <Image src={state.merchant_logo} alt='companyLogo' height={'100%'} width={'100%'} objectFit={'contain'} />
                     </Box>
                     <Box>
-                        <Text fontWeight={'semibold'} fontSize={'2xl'}>{merchant_companyName}</Text>
-                        <Text w={72}> {merchant_address}</Text>
+                        <Text fontWeight={'semibold'} fontSize={'2xl'}>{state.merchant_companyName}</Text>
+                        <Text w={72}> {state.merchant_address}</Text>
                     </Box>
                 </Flex>
 
@@ -74,22 +77,22 @@ const Template1 = () => {
 
                 {/* Invoice Item Table Starts here */}
                 <Box px={'8'} mx='auto' mt='10' pb='8'>
-                    <ItemTable />
+                    {/* <ItemTable /> */}
                 </Box>
 
                 {/* Invoice Final Price and Other Info Starts here */}
                 <Box pl='8' mx='auto' mt='10'>
                     <TotalAndOtherInfo
-                        ownerFootNote={merchant_footNote}
+                        ownerFootNote={state.merchant_footNote}
                     />
                 </Box>
 
                 {/* Footer starts here */}
                 <Box mt='20' borderTop={'5px solid #ECC94B'} pos={'relative'}>
                     <Footer
-                        mobileNumber={merchant_mobile}
-                        webSite={merchant_website}
-                        signature={merchant_signUrl}
+                        mobileNumber={state.merchant_mobile}
+                        webSite={state.merchant_website}
+                        signature={state.merchant_signUrl}
                     />
                 </Box>
 
@@ -98,74 +101,74 @@ const Template1 = () => {
     )
 }
 
-const ItemTable = () => {
-    const itemsInfo = [
-        {
-            sr: 1,
-            itemDescription: "This is a test product",
-            price: 15,
-            quantity: 2,
-            finalPrice: 30
-        },
-        {
-            sr: 2,
-            itemDescription: "Laptop Bag",
-            price: 449,
-            quantity: 1,
-            finalPrice: 449
-        }
-    ]
-    return (
-        <TableContainer >
-            <Table variant='striped'>
-                <Thead bg={'gray.700'}>
-                    <Tr>
-                        <Th color={'white'} fontSize={'sm'} fontWeight={'medium'}>Sr No.</Th>
-                        <Th color={'white'} fontSize={'sm'} fontWeight={'medium'}>Item Description</Th>
-                        <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Price</Th>
-                        <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Qty</Th>
-                        <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Total</Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {
-                        itemsInfo?.map(item => (
-                            <Tr key={item.sr}>
-                                <Td>{item.sr}</Td>
-                                <Td>{item.itemDescription}</Td>
-                                <Td isNumeric>{item.price}</Td>
-                                <Td isNumeric>{item.quantity}</Td>
-                                <Td isNumeric>{item.finalPrice}</Td>
-                            </Tr>
-                        ))
-                    }
-                    <Tr>
-                        <Td></Td>
-                        <Td></Td>
-                        <Td></Td>
-                        <Td></Td>
-                        <Td ></Td>
-                    </Tr>
-                    <Tr>
-                        <Td></Td>
-                        <Td></Td>
-                        <Td></Td>
-                        <Td></Td>
-                        <Td ></Td>
-                    </Tr>
+// const ItemTable = () => {
+//     const itemsInfo = [
+//         {
+//             sr: 1,
+//             itemDescription: "This is a test product",
+//             price: 15,
+//             quantity: 2,
+//             finalPrice: 30
+//         },
+//         {
+//             sr: 2,
+//             itemDescription: "Laptop Bag",
+//             price: 449,
+//             quantity: 1,
+//             finalPrice: 449
+//         }
+//     ]
+//     return (
+//         <TableContainer >
+//             <Table variant='striped'>
+//                 <Thead bg={'gray.700'}>
+//                     <Tr>
+//                         <Th color={'white'} fontSize={'sm'} fontWeight={'medium'}>Sr No.</Th>
+//                         <Th color={'white'} fontSize={'sm'} fontWeight={'medium'}>Item Description</Th>
+//                         <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Price</Th>
+//                         <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Qty</Th>
+//                         <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Total</Th>
+//                     </Tr>
+//                 </Thead>
+//                 <Tbody>
+//                     {
+//                         itemsInfo?.map(item => (
+//                             <Tr key={item.sr}>
+//                                 <Td>{item.sr}</Td>
+//                                 <Td>{item.itemDescription}</Td>
+//                                 <Td isNumeric>{item.price}</Td>
+//                                 <Td isNumeric>{item.quantity}</Td>
+//                                 <Td isNumeric>{item.finalPrice}</Td>
+//                             </Tr>
+//                         ))
+//                     }
+//                     <Tr>
+//                         <Td></Td>
+//                         <Td></Td>
+//                         <Td></Td>
+//                         <Td></Td>
+//                         <Td ></Td>
+//                     </Tr>
+//                     <Tr>
+//                         <Td></Td>
+//                         <Td></Td>
+//                         <Td></Td>
+//                         <Td></Td>
+//                         <Td ></Td>
+//                     </Tr>
 
-                </Tbody>
-                {/* <Tfoot>
-                    <Tr>
-                        <Th>To convert</Th>
-                        <Th>into</Th>
-                        <Th isNumeric>multiply by</Th>
-                    </Tr>
-                </Tfoot> */}
-            </Table>
-        </TableContainer>
-    )
-}
+//                 </Tbody>
+//                 {/* <Tfoot>
+//                     <Tr>
+//                         <Th>To convert</Th>
+//                         <Th>into</Th>
+//                         <Th isNumeric>multiply by</Th>
+//                     </Tr>
+//                 </Tfoot> */}
+//             </Table>
+//         </TableContainer>
+//     )
+// }
 
 const TotalAndOtherInfo = ({ ownerFootNote }: TotalAndOtherInfoComponentProps) => {
     return (

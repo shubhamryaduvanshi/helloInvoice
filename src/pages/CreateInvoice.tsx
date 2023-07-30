@@ -1,9 +1,9 @@
-import { useContext } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import Template1 from '../components/templatesCollection/Template1';
+import Template2 from '../components/templatesCollection/Template2';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { IoReturnUpBackOutline } from 'react-icons/io5';
-import Template2 from '../components/templatesCollection/Template2';
+import MerchantForm from '../components/MerchantForm';
 
 const CreateInvoice = () => {
     let params = useParams();
@@ -20,10 +20,10 @@ const CreateInvoice = () => {
 
     return (
         <Flex justifyContent={'space-around'}>
-            <Box w='45%'>
-
+            <Box w='30%'>
+                <MerchantForm />
             </Box>
-            <Box w='50%'>
+            <Box w='50%' m='2'>
                 {renderInvoiceTemplate()}
             </Box>
         </Flex>
@@ -47,5 +47,6 @@ const InvoiceTemplateNotFound = () => {
         </Flex>
     )
 }
+
 
 export default CreateInvoice
