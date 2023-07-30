@@ -7,13 +7,12 @@ import {
     Text,
     Button,
     Tooltip,
+    Fade,
 } from '@chakra-ui/react';
 import { RatingStar } from './RatingStarts';
-import { TemplateCofigType } from '../core/types/templates';
 import { useState } from 'react';
-import { BsArrowRight } from 'react-icons/bs'
-import { NavLink, Navigate, useNavigate } from 'react-router-dom';
-import { FaCrown } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { TemplateCofigType } from '../core/commonTypes';
 
 
 interface TemplateCardType {
@@ -75,19 +74,20 @@ const TemplateCard = ({ templateInfo }: TemplateCardType) => {
                     objectFit={'contain'}
                 />
 
-                {isHover && !isCommingSoon && (<Flex
-                    p='4'
-                    pos={'absolute'}
-                    top={0}
-                    bg={'#242222ad'}
-                    zIndex={99}
-                    h={'full'}
-                    w='full'
-                    borderRadius={5}
-                    color={'white'}
-
-                >
-                    {/* <Flex justifyContent="space-around" alignContent="center" mt={16}>
+                {isHover && !isCommingSoon && (
+                    <Fade in={isHover && !isCommingSoon}>
+                        <Flex
+                            p='4'
+                            pos={'absolute'}
+                            top={0}
+                            bg={'#242222ad'}
+                            zIndex={99}
+                            h={'full'}
+                            w='full'
+                            borderRadius={5}
+                            color={'white'}
+                        >
+                            {/* <Flex justifyContent="space-around" alignContent="center" mt={16}>
                         {/* <Box
                             fontSize="xl"
                             fontWeight="semibold"
@@ -102,17 +102,19 @@ const TemplateCard = ({ templateInfo }: TemplateCardType) => {
 
                     </Flex> */}
 
-                    <Button
-                        m={'auto'}
-                        colorScheme='teal'
-                        onClick={() => onTemplateSelection(id, isCommingSoon)}
-                    >
-                        Create Invoice
-                    </Button>
+                            <Button
+                                m={'auto'}
+                                colorScheme='teal'
+                                onClick={() => onTemplateSelection(id, isCommingSoon)}
+                            >
+                                Create Invoice
+                            </Button>
 
-                </Flex>
-                )}
-            </Box>
+                        </Flex>
+                    </Fade>
+                )
+                }
+            </Box >
         </Flex >
     );
 }

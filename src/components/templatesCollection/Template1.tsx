@@ -1,11 +1,12 @@
+import { useContext } from 'react';
 import { Box, Container, Flex, Image, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react'
 import { BsBrowserChrome } from 'react-icons/bs';
 import { FaUser } from 'react-icons/fa';
 import { AiFillPhone } from 'react-icons/ai';
 import { MdLocationOn } from 'react-icons/md';
-import { useContext } from 'react';
 import { UserContext } from '../../core/context/UserContext';
-import { UserContextValueType } from '../../core/types/commonTypes';
+import { MerchantContextValueType } from '../../core/commonTypes';
+import { formatMobileNumber } from '../../core/utility';
 
 interface FooterComponentProps {
     mobileNumber: string,
@@ -18,18 +19,20 @@ interface TotalAndOtherInfoComponentProps {
 }
 
 const Template1 = () => {
-    const { owner_companyName, owner_logo, owner_address, owner_mobile, owner_website, owner_signUrl, owner_footNote }: UserContextValueType = useContext(UserContext);
+    const { merchant_companyName, merchant_logo, merchant_address, merchant_mobile, merchant_website, merchant_signUrl, merchant_footNote }: MerchantContextValueType = useContext(UserContext);
+
+
     return (
         <>
             <Container maxW={'container.md'} shadow={'lg'} p='0' >
                 {/* Header starts here */}
                 <Flex alignItems={'center'} gap={4} px='8' pt='12'>
                     <Box h={12} w={12}>
-                        <Image src={owner_logo} alt='companyLogo' height={'100%'} width={'100%'} objectFit={'contain'} />
+                        <Image src={merchant_logo} alt='companyLogo' height={'100%'} width={'100%'} objectFit={'contain'} />
                     </Box>
                     <Box>
-                        <Text fontWeight={'semibold'} fontSize={'2xl'}>{owner_companyName}</Text>
-                        <Text w={72}> {owner_address}</Text>
+                        <Text fontWeight={'semibold'} fontSize={'2xl'}>{merchant_companyName}</Text>
+                        <Text w={72}> {merchant_address}</Text>
                     </Box>
                 </Flex>
 
@@ -77,16 +80,16 @@ const Template1 = () => {
                 {/* Invoice Final Price and Other Info Starts here */}
                 <Box pl='8' mx='auto' mt='10'>
                     <TotalAndOtherInfo
-                        ownerFootNote={owner_footNote}
+                        ownerFootNote={merchant_footNote}
                     />
                 </Box>
 
                 {/* Footer starts here */}
                 <Box mt='20' borderTop={'5px solid #ECC94B'} pos={'relative'}>
                     <Footer
-                        mobileNumber={owner_mobile}
-                        webSite={owner_website}
-                        signature={owner_signUrl}
+                        mobileNumber={merchant_mobile}
+                        webSite={merchant_website}
+                        signature={merchant_signUrl}
                     />
                 </Box>
 
@@ -204,7 +207,7 @@ const Footer = ({ mobileNumber, webSite, signature }: FooterComponentProps) => {
             </Flex>
             {/* Bottom infos */}
             <Flex gap={4} pb='2' alignItems={'center'} px='8' pt='2'>
-                <Flex alignItems={'center'} gap={2}><AiFillPhone /> <Text> {mobileNumber}</Text></Flex> |
+                <Flex alignItems={'center'} gap={2}><AiFillPhone /> <Text> {formatMobileNumber(mobileNumber)}</Text></Flex> |
                 <Flex alignItems={'center'} gap={2}><BsBrowserChrome /> <Text> {webSite}</Text></Flex>
             </Flex>
 

@@ -1,8 +1,8 @@
-import { TemplateCofigType } from "./types/templates";
 import template1Thumb from '../assets/templateThumbnails/template1.png';
 import template2Thumb from "../assets/templateThumbnails/template2.png";
 import template3Thumb from "../assets/templateThumbnails/template3.png";
 import template4Thumb from "../assets/templateThumbnails/template4.png";
+import { TemplateCofigType } from './commonTypes';
 
 export const templatesConfig: TemplateCofigType[] = [
   {

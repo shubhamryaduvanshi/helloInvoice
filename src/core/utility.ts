@@ -1,8 +1,5 @@
-const phoneFormat = (input: string) => {
-    // if (typeof (input) !== 'string') input = input.toString()
-    if (input.length === 10) {
-        return input.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-    }
+export const formatMobileNumber = (number: string) => {
+    if (!number) return;
+    const cleaned = number.replace(/\D/g, '');
+    return cleaned.replace(/^(\d{4})(\d{3})(\d{3})$/, '$1-$2-$3');
 }
-
-export { phoneFormat };

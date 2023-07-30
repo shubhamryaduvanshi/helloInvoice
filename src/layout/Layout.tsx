@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useContext } from 'react'
 import { Grid, GridItem } from '@chakra-ui/react';
 import Header from '../components/Header';
 import SideNav from '../components/SideNav';
@@ -8,6 +8,7 @@ interface LayoutType {
 }
 
 const Layout = ({ children }: LayoutType) => {
+
     return (
         <>
             <Grid

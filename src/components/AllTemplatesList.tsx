@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Flex } from '@chakra-ui/react';
 import { templatesConfig } from '../core/templatesConfig';
-import { TemplateCofigType } from '../core/types/templates';
 import TemplateCard from './TemplateCard';
 import { useNavigate } from 'react-router-dom';
+import { TemplateCofigType } from '../core/commonTypes';
 
 const AllTemplatesList = () => {
 

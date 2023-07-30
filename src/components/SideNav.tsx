@@ -1,4 +1,4 @@
-import { NavBarTypes } from "../core/types/commonTypes"
+import { NavBarTypes } from "../core/commonTypes"
 import { Flex, Box } from "@chakra-ui/react"
 import { HiHome } from 'react-icons/hi';
 import { CgTemplate } from 'react-icons/cg';

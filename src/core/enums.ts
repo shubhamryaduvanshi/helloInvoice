@@ -1,0 +1,3 @@
+export enum OWNER_ACTION {
+    ADD_COMPANY_NAME = "ADD_COMPANY_NAME"
+}
