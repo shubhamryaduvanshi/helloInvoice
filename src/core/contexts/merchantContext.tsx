@@ -1,9 +1,6 @@
 // MyContext.js
 import { createContext, useReducer, useContext } from "react";
 import merchantReducer from "../reducers/merchantReducer";
-import { MerchantContextValueType } from "../commonTypes";
-
-
 
 const initialState: any = {
   merchant_fullName: "",

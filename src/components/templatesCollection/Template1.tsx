@@ -5,9 +5,10 @@ import { FaUser } from 'react-icons/fa';
 import { AiFillPhone } from 'react-icons/ai';
 import { MdLocationOn } from 'react-icons/md';
 // import { UserContext } from '../../core/context/UserContext';
-import { MerchantContextValueType } from '../../core/commonTypes';
-import { formatMobileNumber } from '../../core/utility';
+import { formatMobileNumber, getFormattedAmount } from '../../core/utility';
 import { useMerchantContext } from '../../core/contexts/merchantContext';
+import { useCustomerContext } from '../../core/contexts/customerContext';
+import { ProductListItemType } from '../../core/commonTypes';
 
 interface FooterComponentProps {
     mobileNumber: string,
@@ -16,12 +17,16 @@ interface FooterComponentProps {
 }
 
 interface TotalAndOtherInfoComponentProps {
-    ownerFootNote: string
+    subTotalAmt: number;
+    ownerFootNote: string;
+    taxPercentage: number;
+    totalAmount: number
 }
 
 const Template1 = () => {
     // const { state.merchant_companyName, state.merchant_logo, state.merchant_address, state.merchant_mobile, state.merchant_website, state.merchant_signUrl, state.merchant_footNote }: MerchantContextValueType = useContext(UserContext);
     const { state } = useMerchantContext();
+    const { customerState } = useCustomerContext();
 
 
 
@@ -57,19 +62,18 @@ const Template1 = () => {
                     </Text>
                     <Flex justifyContent={'space-between'}>
                         <Box w='54'>
-                            <Flex fontWeight={'semibold'} alignItems={'center'} gap={2}><FaUser /> <Text>Dwayene Clark</Text></Flex>
-                            <Flex alignItems={'center'} gap={2}><MdLocationOn /> <Text>4567 Ross Street,
-                                Herminie,United States,25656</Text></Flex>
-                            <Flex alignItems={'center'} gap={2}><AiFillPhone /> <Text> +91 898565456</Text></Flex>
+                            <Flex fontWeight={'semibold'} alignItems={'center'} gap={2}><FaUser /> <Text>{customerState.customer_fullName}</Text></Flex>
+                            <Flex alignItems={'center'} gap={2}><MdLocationOn /> <Text>{customerState.customer_address}</Text></Flex>
+                            <Flex alignItems={'center'} gap={2}><AiFillPhone /> <Text>+91 {customerState.customer_mobile}</Text></Flex>
                         </Box>
                         <Box>
                             <Flex w='full'>
                                 <Text fontWeight={'semibold'} mr='2'>Invoice # </Text>
-                                <Text> INV2552</Text>
+                                <Text> {customerState.customer_inv_no}</Text>
                             </Flex>
                             <Flex w='full'>
                                 <Text fontWeight={'semibold'} mr='2'> Date</Text>
-                                <Text>12/05/2023</Text>
+                                <Text>{customerState.customer_inv_date}</Text>
                             </Flex>
                         </Box>
                     </Flex>
@@ -77,13 +81,16 @@ const Template1 = () => {
 
                 {/* Invoice Item Table Starts here */}
                 <Box px={'8'} mx='auto' mt='10' pb='8'>
-                    {/* <ItemTable /> */}
+                    <ItemTable customerProductList={customerState.customer_product_list_items} />
                 </Box>
 
                 {/* Invoice Final Price and Other Info Starts here */}
                 <Box pl='8' mx='auto' mt='10'>
                     <TotalAndOtherInfo
+                        subTotalAmt={customerState.customer_sub_total_amt}
                         ownerFootNote={state.merchant_footNote}
+                        taxPercentage={customerState.customer_tax_percent}
+                        totalAmount={customerState.customer_total_amt}
                     />
                 </Box>
 
@@ -101,76 +108,60 @@ const Template1 = () => {
     )
 }
 
-// const ItemTable = () => {
-//     const itemsInfo = [
-//         {
-//             sr: 1,
-//             itemDescription: "This is a test product",
-//             price: 15,
-//             quantity: 2,
-//             finalPrice: 30
-//         },
-//         {
-//             sr: 2,
-//             itemDescription: "Laptop Bag",
-//             price: 449,
-//             quantity: 1,
-//             finalPrice: 449
-//         }
-//     ]
-//     return (
-//         <TableContainer >
-//             <Table variant='striped'>
-//                 <Thead bg={'gray.700'}>
-//                     <Tr>
-//                         <Th color={'white'} fontSize={'sm'} fontWeight={'medium'}>Sr No.</Th>
-//                         <Th color={'white'} fontSize={'sm'} fontWeight={'medium'}>Item Description</Th>
-//                         <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Price</Th>
-//                         <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Qty</Th>
-//                         <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Total</Th>
-//                     </Tr>
-//                 </Thead>
-//                 <Tbody>
-//                     {
-//                         itemsInfo?.map(item => (
-//                             <Tr key={item.sr}>
-//                                 <Td>{item.sr}</Td>
-//                                 <Td>{item.itemDescription}</Td>
-//                                 <Td isNumeric>{item.price}</Td>
-//                                 <Td isNumeric>{item.quantity}</Td>
-//                                 <Td isNumeric>{item.finalPrice}</Td>
-//                             </Tr>
-//                         ))
-//                     }
-//                     <Tr>
-//                         <Td></Td>
-//                         <Td></Td>
-//                         <Td></Td>
-//                         <Td></Td>
-//                         <Td ></Td>
-//                     </Tr>
-//                     <Tr>
-//                         <Td></Td>
-//                         <Td></Td>
-//                         <Td></Td>
-//                         <Td></Td>
-//                         <Td ></Td>
-//                     </Tr>
+const ItemTable = ({ customerProductList }: ProductListItemType[] | [] | any) => {
+    return (
+        <TableContainer >
+            <Table variant='striped'>
+                <Thead bg={'gray.700'}>
+                    <Tr>
+                        <Th color={'white'} fontSize={'sm'} fontWeight={'medium'}>Sr No.</Th>
+                        <Th color={'white'} fontSize={'sm'} fontWeight={'medium'}>Item Description</Th>
+                        <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Price</Th>
+                        <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Qty</Th>
+                        <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Total</Th>
+                    </Tr>
+                </Thead>
+                <Tbody>
+                    {
+                        customerProductList && customerProductList.map((item: ProductListItemType, index: number) => (
+                            <Tr key={item.id}>
+                                <Td>{index + 1}</Td>
+                                <Td textTransform={'capitalize'}>{item.title}</Td>
+                                <Td isNumeric>{getFormattedAmount(item.price)}</Td>
+                                <Td isNumeric>{item.quantity}</Td>
+                                <Td isNumeric>{getFormattedAmount(item.totalPrice)}</Td>
+                            </Tr>
+                        ))
+                    }
+                    {/* <Tr>
+                        <Td></Td>
+                        <Td></Td>
+                        <Td></Td>
+                        <Td></Td>
+                        <Td ></Td>
+                    </Tr> */}
+                    {/* <Tr>
+                        <Td></Td>
+                        <Td></Td>
+                        <Td></Td>
+                        <Td></Td>
+                        <Td ></Td>
+                    </Tr> */}
 
-//                 </Tbody>
-//                 {/* <Tfoot>
-//                     <Tr>
-//                         <Th>To convert</Th>
-//                         <Th>into</Th>
-//                         <Th isNumeric>multiply by</Th>
-//                     </Tr>
-//                 </Tfoot> */}
-//             </Table>
-//         </TableContainer>
-//     )
-// }
+                </Tbody>
+                {/* <Tfoot>
+                    <Tr>
+                        <Th>To convert</Th>
+                        <Th>into</Th>
+                        <Th isNumeric>multiply by</Th>
+                    </Tr>
+                </Tfoot> */}
+            </Table>
+        </TableContainer>
+    )
+}
 
-const TotalAndOtherInfo = ({ ownerFootNote }: TotalAndOtherInfoComponentProps) => {
+const TotalAndOtherInfo = ({ ownerFootNote, subTotalAmt, taxPercentage, totalAmount }: TotalAndOtherInfoComponentProps) => {
     return (
         <Flex justifyContent={'space-between'}>
             {/* Left side content starts here */}
@@ -187,14 +178,14 @@ const TotalAndOtherInfo = ({ ownerFootNote }: TotalAndOtherInfoComponentProps) =
             <Box w='auto'>
                 <Flex fontWeight={'medium'} pr='8' alignItems={'center'} pl='4' >
                     <Text w='24'>Sub Total :</Text>
-                    <Text>$15454.21</Text>
+                    <Text>{getFormattedAmount(subTotalAmt)}</Text>
                 </Flex>
                 <Flex fontWeight={'medium'} my='1' pr='8' alignItems={'center'} pl='4'>
                     <Text w='24'>Tax :</Text>
-                    <Text>0.00%</Text>
+                    <Text>{taxPercentage}%</Text>
                 </Flex>
                 <Flex mt='4' gap={12} bg={'yellow.400'} fontWeight={'bold'} py='3' pr='20' pl='4'>
-                    Total: <Text>$15454.21</Text>
+                    Total: <Text>{getFormattedAmount(totalAmount)}</Text>
                 </Flex>
             </Box>
         </Flex>

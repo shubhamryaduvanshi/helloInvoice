@@ -7,11 +7,6 @@ import UplaodImage from './UplaodImage';
 
 const MerchantForm = () => {
     const { state, dispatch } = useMerchantContext();
-    // const handleChange = (e: any) => {
-    //     dispatch({
-    //         type: "SET_FULL_NAME",
-    //         payload: e.target.value
-    //     })
 
     const onImageUpload = (type: string, blobURI: string) => {
         if (!type && !blobURI) {
@@ -38,14 +33,12 @@ const MerchantForm = () => {
         }
     }
 
-    // }
     return (
         <Box maxW={'sm'} m={'auto'} pt={'20'}>
             <Text fontSize={'2xl'} px={2} m={'auto'} mb={8} borderBottom={'1px'} w={'fit-content'}>
                 Merchant Info Form
             </Text>
             <form>
-                {/* <Input type='text' name='fullName' value={state.merchant_fullName} /> */}
                 <Box my={2}>
                     <Text fontSize={'sm'} mb='0.5'>Upload Logo:</Text>
                     <UplaodImage

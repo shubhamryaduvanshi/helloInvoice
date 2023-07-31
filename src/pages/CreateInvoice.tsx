@@ -4,6 +4,8 @@ import Template2 from '../components/templatesCollection/Template2';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { IoReturnUpBackOutline } from 'react-icons/io5';
 import MerchantForm from '../components/MerchantForm';
+import CustomerForm from '../components/customer/CustomerForm';
+import { CustomerContextProvider } from '../core/contexts/customerContext';
 
 const CreateInvoice = () => {
     let params = useParams();
@@ -19,14 +21,18 @@ const CreateInvoice = () => {
     }
 
     return (
-        <Flex justifyContent={'space-around'}>
-            <Box w='30%'>
-                <MerchantForm />
-            </Box>
-            <Box w='50%' m='2'>
-                {renderInvoiceTemplate()}
-            </Box>
-        </Flex>
+        <CustomerContextProvider>
+            <Flex justifyContent={'space-around'}>
+                <Box w='30%'>
+                    <CustomerForm />
+                    {/* <MerchantForm /> */}
+
+                </Box>
+                <Box w='50%' m='2'>
+                    {renderInvoiceTemplate()}
+                </Box>
+            </Flex>
+        </CustomerContextProvider>
     )
 }
 

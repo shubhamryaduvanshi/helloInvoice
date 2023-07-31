@@ -25,5 +25,13 @@ interface TemplateCofigType {
     isCommingSoon: boolean
 }
 
+interface ProductListItemType {
+    id: string,
+    title: string,
+    quantity: number,
+    price: number,
+    totalPrice: number
+}
 
-export type { NavBarTypes, MerchantContextValueType, TemplateCofigType }
+
+export type { NavBarTypes, MerchantContextValueType, TemplateCofigType, ProductListItemType }
