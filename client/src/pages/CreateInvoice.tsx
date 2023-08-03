@@ -24,8 +24,8 @@ const CreateInvoice = () => {
         <CustomerContextProvider>
             <Flex justifyContent={'space-around'}>
                 <Box w='30%'>
-                    <CustomerForm />
-                    {/* <MerchantForm /> */}
+                    {/* <CustomerForm /> */}
+                    <MerchantForm />
 
                 </Box>
                 <Box w='50%' m='2'>
