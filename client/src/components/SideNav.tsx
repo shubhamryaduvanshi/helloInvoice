@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 const SideNav = () => {
     const navItems: NavBarTypes[] = [
         {
-            label: "Dashboard",
+            label: "Home",
             icon: <HiHome size='20' />,
             path: "/"
         },

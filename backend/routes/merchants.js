@@ -3,8 +3,9 @@ const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const routes = express.Router();
 const dbConn = require('../config');
+const { verifyTokenAndAuthorization, verifyToken } = require('./verifyToken');
 
-routes.get('/', (req, res) => {
+routes.get('/', verifyTokenAndAuthorization, (req, res) => {
     const q = "SELECT * FROM merchants";
     dbConn.query(q, (err, data) => {
         if (err) return res.json(err)
@@ -12,8 +13,8 @@ routes.get('/', (req, res) => {
     })
 })
 
-routes.post('/', (req, res) => {
-    const q = "INSERT INTO merchants (`id`,`name`,`brand_name`,`logo`,`mobile`,`website`,`address`,`footnote`,`signature`) VALUES(?)";
+routes.post('/', verifyToken, (req, res) => {
+    const q = "INSERT INTO merchants (`id`,`username`,`brand_name`,`logo`,`mobile`,`website`,`address`,`footnote`,`signature`) VALUES(?)";
     const values = [
         uuidv4(),
         req.body.name,
@@ -32,7 +33,7 @@ routes.post('/', (req, res) => {
     })
 })
 
-routes.delete('/:id', (req, res) => {
+routes.delete('/:id', verifyTokenAndAuthorization, (req, res) => {
     const merchantId = req.params.id;
     const q = `DELETE FROM merchants WHERE id =?`;
     dbConn.query(q, [merchantId], (err, data) => {
@@ -42,11 +43,10 @@ routes.delete('/:id', (req, res) => {
     })
 })
 
-routes.put('/:id', (req, res) => {
+routes.put('/:id', verifyTokenAndAuthorization, (req, res) => {
     const merchantId = req.params.id;
 
     const values = [
-        req.body.name,
         req.body.brandName,
         req.body.logo,
         req.body.mobile,
@@ -56,7 +56,7 @@ routes.put('/:id', (req, res) => {
         req.body.signature,
     ];
 
-    const q = `UPDATE merchants SET name= ?,brand_name= ?,logo= ?,mobile= ?,website= ?,address= ?,footnote= ?,signature =? WHERE id =?`;
+    const q = `UPDATE merchants SET brand_name= ?,logo= ?,mobile= ?,website= ?,address= ?,footnote= ?,signature =? WHERE id =?`;
 
     dbConn.query(q, [...values, merchantId], (err, data) => {
         if (err) return res.json(err);

@@ -25,3 +25,9 @@ export enum CUSTOMER_ACTIONS {
     SET_TOTAL_AMOUNT = "SET_TOTAL_AMOUNT",
     REMOVE_PRODUCT_FROM_LIST = "REMOVE_PRODUCT_FROM_LIST"
 }
+
+export enum SCREEN_TO_SHOW {
+    CUSTOMER_MODULE = "customer_module",
+    MERCHANT_MODULE = "merchant_module",
+    PRODUCT_OPERATION = "product_operation"
+}

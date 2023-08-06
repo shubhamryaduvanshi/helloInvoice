@@ -32,7 +32,7 @@ const Template1 = () => {
 
     return (
         <>
-            <Container maxW={'container.md'} shadow={'lg'} p='0' >
+            <Container maxW={'container.md'} shadow={'lg'} p='0' id='template-printable' >
                 {/* Header starts here */}
                 <Flex alignItems={'center'} gap={4} px='8' pt='12'>
                     <Box h={12} w={12}>
@@ -64,7 +64,7 @@ const Template1 = () => {
                         <Box w='54'>
                             <Flex fontWeight={'semibold'} alignItems={'center'} gap={2}><FaUser /> <Text>{customerState.customer_fullName}</Text></Flex>
                             <Flex alignItems={'center'} gap={2}><MdLocationOn /> <Text>{customerState.customer_address}</Text></Flex>
-                            <Flex alignItems={'center'} gap={2}><AiFillPhone /> <Text>+91 {customerState.customer_mobile}</Text></Flex>
+                            <Flex alignItems={'center'} gap={2}><AiFillPhone /> <Text>+91 {formatMobileNumber(customerState.customer_mobile)}</Text></Flex>
                         </Box>
                         <Box>
                             <Flex w='full'>

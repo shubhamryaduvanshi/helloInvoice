@@ -19,7 +19,7 @@ export const CustomerFormProductList = () => {
         if (!productTitle || !productPrice || !productQuantity) {
             toast({
                 title: 'Error',
-                description: "Please fill up all the required details.",
+                description: "Please fill up all the details.",
                 status: 'error',
                 duration: 9000,
                 isClosable: true,

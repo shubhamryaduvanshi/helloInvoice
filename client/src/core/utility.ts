@@ -18,3 +18,7 @@ export const getFormattedAmount = (amount: number) => {
         currency: 'INR',
     }).format(amount)
 }
+
+export const print = (elementId: string) => {
+    window.print();
+}
