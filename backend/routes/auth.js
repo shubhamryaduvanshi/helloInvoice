@@ -98,11 +98,12 @@ routes.post("/login", async (req, res) => {
                     userName: results[0].username
                 },
                 process.env.JWT_SECRET_KEY,
-                { expiresIn: "1d" }
+                { expiresIn: "2d" }
             );
 
             const responseObj = {
                 merchant: {
+                    id: results[0].id,
                     userName: results[0].username,
                     brandName: results[0].brand_name,
                     logo: results[0].logo,

@@ -32,9 +32,9 @@ const Template1 = () => {
 
     return (
         <>
-            <Container maxW={'container.md'} shadow={'lg'} p='0' id='template-printable' >
+            <Container maxW={'container.md'} shadow={'lg'} p='0' id='template-printable-content' bgColor={'white'} >
                 {/* Header starts here */}
-                <Flex alignItems={'center'} gap={4} px='8' pt='12'>
+                <Flex alignItems={'center'} gap={4} px='8' pt='12' pb='8' bgColor={'white'}>
                     <Box h={12} w={12}>
                         <Image src={state.merchant_logo} alt='companyLogo' height={'100%'} width={'100%'} objectFit={'contain'} />
                     </Box>
@@ -45,7 +45,7 @@ const Template1 = () => {
                 </Flex>
 
                 {/* Yellow Big Border Starts here */}
-                <Box w='full' bg={'yellow.400'} h='14' pr='12' mt='8'>
+                <Box w='full' bg={'yellow.400'} h='14' pr='12'>
                     <Text bg={'white'} w='fit-content' ml='auto' px='4' fontSize={'6xl'}
                         textTransform={'uppercase'}
                         pos={'relative'}
@@ -56,7 +56,7 @@ const Template1 = () => {
                 </Box>
 
                 {/* Invoice Basic Info Starts here */}
-                <Box mt='10' px='8'>
+                <Box pt='10' px='8' bg={'white'}>
                     <Text fontSize={'xl'} fontWeight={'semibold'}>
                         Invoice To:
                     </Text>
@@ -80,12 +80,12 @@ const Template1 = () => {
                 </Box>
 
                 {/* Invoice Item Table Starts here */}
-                <Box px={'8'} mx='auto' mt='10' pb='8'>
+                <Box px={'8'} mx='auto' pt='10' pb='8' bg={'white'}>
                     <ItemTable customerProductList={customerState.customer_product_list_items} />
                 </Box>
 
                 {/* Invoice Final Price and Other Info Starts here */}
-                <Box pl='8' mx='auto' mt='10'>
+                <Box pl='8' mx='auto' pt='10' bg={'white'} pb={'20'}>
                     <TotalAndOtherInfo
                         subTotalAmt={customerState.customer_sub_total_amt}
                         ownerFootNote={state.merchant_footNote}
@@ -95,7 +95,7 @@ const Template1 = () => {
                 </Box>
 
                 {/* Footer starts here */}
-                <Box mt='20' borderTop={'5px solid #ECC94B'} pos={'relative'}>
+                <Box bg={'white'} borderTop={'5px solid #ECC94B'} pos={'relative'}>
                     <Footer
                         mobileNumber={state.merchant_mobile}
                         webSite={state.merchant_website}

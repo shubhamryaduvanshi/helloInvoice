@@ -11,6 +11,8 @@ import { useState } from 'react';
 import { Switch } from "@chakra-ui/switch";
 import { BsDownload, BsPrinter } from 'react-icons/bs';
 import { print } from '../core/utility';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 
 const CreateInvoice = () => {
@@ -32,34 +34,36 @@ const CreateInvoice = () => {
     }
 
 
+    const handleDownload = () => {
+        const content: HTMLElement | null | any = document.getElementById("template-printable-content");
+        if (!content) {
+            return console.error("Something went wrong!");
+        }
+        html2canvas(content).then((canvas) => {
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF();
+            pdf.addImage(imgData, "PNG", 5, 0, 200, 300);
+            const fileName = `Invoice - ${new Date()}.pdf`;
+            pdf.save(fileName);
+        });
+    }
+
+
     return (
         <CustomerContextProvider>
             <Flex w='full' justifyContent={'space-evenly'} my={4} alignItems={'center'}>
                 <Flex >
                     <Text>Toggle to change the form.</Text>   <Switch size={'md'} mx='4' value={moduleToShow} onChange={handleScreenChange} />
-                    <Text px='2' style={{ color: moduleToShow === SCREEN_TO_SHOW.MERCHANT_MODULE ? 'ActiveCaption' : 'gainsboro' }}>Merchant Form </Text>
                     <Text style={{ color: moduleToShow === SCREEN_TO_SHOW.CUSTOMER_MODULE ? 'ActiveCaption' : 'gainsboro' }}>Customer Form </Text>
+                    <Text px='2' style={{ color: moduleToShow === SCREEN_TO_SHOW.MERCHANT_MODULE ? 'ActiveCaption' : 'gainsboro' }}>Merchant Form </Text>
                 </Flex>
                 <Flex w='20%'
                     gap={20}
                 >
-                    <IconButton
-                        borderRadius={50}
-                        variant='outline'
-                        colorScheme='facebook'
-                        aria-label='Download'
-                        icon={<BsDownload size={22} />}
-                    />
-                    <IconButton
-                        borderRadius={50}
-                        variant='outline'
-                        colorScheme='facebook'
-                        aria-label='Download'
-                        onClick={() => {
-                            print("template-printable")
-                        }}
-                        icon={<BsPrinter size={22} />}
-                    />
+
+                    <Button onClick={handleDownload} rightIcon={<BsDownload size={22} />} colorScheme='teal' variant='outline'>
+                        Download Invoice
+                    </Button>
                 </Flex>
             </Flex>
             <Flex justifyContent={'space-around'}>
