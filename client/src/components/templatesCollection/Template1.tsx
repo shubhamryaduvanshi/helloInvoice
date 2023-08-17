@@ -34,7 +34,7 @@ const Template1 = () => {
         <>
             <Container maxW={'container.md'} shadow={'lg'} p='0' id='template-printable-content' bgColor={'white'} >
                 {/* Header starts here */}
-                <Flex alignItems={'center'} gap={4} px='8' pt='12' pb='8' bgColor={'white'}>
+                <Flex alignItems={'center'} gap={4} px='8' pt='4' pb='8' bgColor={'white'}>
                     <Box h={12} w={12}>
                         <Image src={state.merchant_logo} alt='companyLogo' height={'100%'} width={'100%'} objectFit={'contain'} />
                     </Box>

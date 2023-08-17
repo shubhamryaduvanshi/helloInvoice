@@ -1,22 +1,23 @@
-import { NavLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Template1 from '../components/templatesCollection/Template1';
 import Template2 from '../components/templatesCollection/Template2';
-import { Box, Button, Center, Flex, IconButton, Text } from '@chakra-ui/react';
-import { IoReturnUpBackOutline } from 'react-icons/io5';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { AiOutlineUser } from 'react-icons/ai';
 import MerchantForm from '../components/MerchantForm';
 import CustomerForm from '../components/customer/CustomerForm';
 import { CustomerContextProvider } from '../core/contexts/customerContext';
 import { SCREEN_TO_SHOW } from '../core/enums';
 import { useState } from 'react';
-import { Switch } from "@chakra-ui/switch";
 import { BsDownload, BsPrinter } from 'react-icons/bs';
 import { print } from '../core/utility';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { MdAdminPanelSettings } from 'react-icons/md';
+import InvoiceTemplateNotFound from '../components/templatesCollection/InvoiceTemplateNotFound';
 
 
 const CreateInvoice = () => {
-    const [moduleToShow, setModuleToShow] = useState<string>(SCREEN_TO_SHOW.CUSTOMER_MODULE);
+    const [moduleToShow, setModuleToShow] = useState<string>(SCREEN_TO_SHOW.MERCHANT_MODULE);
     let params = useParams();
 
     const renderInvoiceTemplate = () => {
@@ -41,6 +42,8 @@ const CreateInvoice = () => {
         }
         html2canvas(content).then((canvas) => {
             const imgData = canvas.toDataURL("image/png");
+            console.log(imgData);
+
             const pdf = new jsPDF();
             pdf.addImage(imgData, "PNG", 5, 0, 200, 300);
             const fileName = `Invoice - ${new Date()}.pdf`;
@@ -52,10 +55,43 @@ const CreateInvoice = () => {
     return (
         <CustomerContextProvider>
             <Flex w='full' justifyContent={'space-evenly'} my={4} alignItems={'center'}>
-                <Flex >
-                    <Text>Toggle to change the form.</Text>   <Switch size={'md'} mx='4' value={moduleToShow} onChange={handleScreenChange} />
-                    <Text style={{ color: moduleToShow === SCREEN_TO_SHOW.CUSTOMER_MODULE ? 'ActiveCaption' : 'gainsboro' }}>Customer Form </Text>
-                    <Text px='2' style={{ color: moduleToShow === SCREEN_TO_SHOW.MERCHANT_MODULE ? 'ActiveCaption' : 'gainsboro' }}>Merchant Form </Text>
+                <Flex gap={24} w={'32%'}>
+                    <Flex
+                        p={2}
+                        background={moduleToShow === SCREEN_TO_SHOW.MERCHANT_MODULE ? 'teal.500' : 'white'}
+                        boxShadow={moduleToShow === SCREEN_TO_SHOW.MERCHANT_MODULE ? 'lg' : 'none'}
+                        borderRadius={'lg'}
+                        color={moduleToShow === SCREEN_TO_SHOW.MERCHANT_MODULE ? 'white' : 'gray.400'}
+                        flexDir={'column'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        border={moduleToShow == SCREEN_TO_SHOW.MERCHANT_MODULE ? 'none' : '1px solid gainsboro'}
+                        transition={'all 0.5s ease'}
+                        onClick={handleScreenChange}
+                        cursor={'pointer'}
+
+                    >
+                        <MdAdminPanelSettings size={34} />
+                        <Text as={'span'} fontSize={'xs'}>Merchant</Text>
+                    </Flex>
+                    <Flex
+                        p={2}
+                        background={moduleToShow === SCREEN_TO_SHOW.CUSTOMER_MODULE ? 'teal.500' : 'white'}
+                        boxShadow={moduleToShow === SCREEN_TO_SHOW.CUSTOMER_MODULE ? 'lg' : 'none'}
+                        borderRadius={'lg'}
+                        color={moduleToShow === SCREEN_TO_SHOW.CUSTOMER_MODULE ? 'white' : 'gray.400'}
+                        flexDir={'column'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        border={moduleToShow == SCREEN_TO_SHOW.CUSTOMER_MODULE ? 'none' : '1px solid gainsboro'}
+                        transition={'all 0.5s ease'}
+                        onClick={handleScreenChange}
+                        cursor={'pointer'}
+                    >
+                        <AiOutlineUser size={34} />
+                        <Text as={'span'} fontSize={'xs'}>Customer</Text>
+                    </Flex>
+
                 </Flex>
                 <Flex w='20%'
                     gap={20}
@@ -79,24 +115,6 @@ const CreateInvoice = () => {
                 </Box>
             </Flex>
         </CustomerContextProvider>
-    )
-}
-
-const InvoiceTemplateNotFound = () => {
-    return (
-        <Flex justifyContent={'center'} alignItems={'flex-start'} my={'16'} mx={'auto'} flexDir={'column'} w='lg' gap={12}>
-            <NavLink to={'/templates'}>
-                <Button
-                    leftIcon={<IoReturnUpBackOutline size={20} />}
-                    colorScheme='teal' variant={'outline'}>
-                    Back
-                </Button>
-            </NavLink>
-
-            <Text fontSize={'2xl'}>
-                Please select an valid Invoice Template
-            </Text>
-        </Flex>
     )
 }
 

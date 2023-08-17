@@ -16,8 +16,6 @@ const MerchantForm = () => {
         if (!type && !blobURI) {
             throw new Error("Please add image to uplaod")
         }
-        console.log(type, blobURI);
-
         switch (type) {
             case "logo":
                 dispatch({
@@ -87,9 +85,9 @@ const MerchantForm = () => {
             <AuthComponent onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
         }
             <Box maxW={'sm'} m={'auto'} pt={'10'}>
-                <Text fontSize={'2xl'} px={2} m={'auto'} mb={8} borderBottom={'1px'} w={'fit-content'}>
+                {/* <Text fontSize={'2xl'} px={2} m={'auto'} mb={8} borderBottom={'1px'} w={'fit-content'}>
                     Merchant Info Form
-                </Text>
+                </Text> */}
                 <form>
                     <Box my={2}>
                         <Text fontSize={'sm'} mb='0.5'>Upload Logo:</Text>
