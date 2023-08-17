@@ -45,7 +45,8 @@ const CreateInvoice = () => {
             console.log(imgData);
 
             const pdf = new jsPDF();
-            pdf.addImage(imgData, "PNG", 5, 0, 200, 300);
+            pdf.addImage(imgData, "PNG", 0, 0, 0, 0);
+            // pdf.addImage(imgData, "PNG", 5, 0, 200, 300);
             const fileName = `Invoice - ${new Date()}.pdf`;
             pdf.save(fileName);
         });

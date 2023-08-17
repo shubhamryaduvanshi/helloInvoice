@@ -18,8 +18,8 @@ export const templatesConfig: TemplateCofigType[] = [
     label: "Template 2",
     thumbnail: template2Thumb,
     rating: 5,
-    isNew: false,
-    isCommingSoon: true
+    isNew: true,
+    isCommingSoon: false
   },
   {
     id: "template3",

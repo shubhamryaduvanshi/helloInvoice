@@ -137,7 +137,7 @@ const MerchantForm = () => {
                     </Box>
                     <Box my={2}>
                         <Text fontSize={'sm'} mb='0.5'>Website URL:</Text>
-                        <Input size={'sm'} type='text' placeholder='Phone number'
+                        <Input size={'sm'} type='text' placeholder='www.google.com'
                             value={state.merchant_website} onChange={(e) => {
                                 dispatch({
                                     type: MERCHANT_ACTIONS.SET_WEBSITE_URL,

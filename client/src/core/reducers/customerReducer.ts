@@ -1,11 +1,8 @@
 import { ProductListItemType } from "../commonTypes";
 import { CUSTOMER_ACTIONS } from "../enums";
 
-
-
 // reducer.js
 const customerReducer = (state: any, action: any) => {
-
     const getSubTotalAmount = () => {
         let subTotalAmt = 0;
         state.customer_product_list_items.forEach((element: ProductListItemType) => {
@@ -15,15 +12,10 @@ const customerReducer = (state: any, action: any) => {
     }
 
     const getTotalAmount = (subtotal: number, taxRatePercent: number) => {
-        console.log({ subtotal, taxRatePercent });
-
         const taxRateDecimal = taxRatePercent / 100;
         const totalAmount = subtotal + subtotal * taxRateDecimal;
-        console.log(totalAmount);
-
         return totalAmount;
     }
-
 
     switch (action.type) {
         case CUSTOMER_ACTIONS.SET_FULL_NAME:

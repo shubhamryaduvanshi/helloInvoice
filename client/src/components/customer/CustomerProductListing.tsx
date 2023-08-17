@@ -13,6 +13,12 @@ const CustomerProductListing = () => {
             type: CUSTOMER_ACTIONS.REMOVE_PRODUCT_FROM_LIST,
             payload: id
         })
+        customerDispatch({
+            type: CUSTOMER_ACTIONS.SET_SUBTOTAL_AMOUNT
+        })
+        customerDispatch({
+            type: CUSTOMER_ACTIONS.SET_TOTAL_AMOUNT
+        })
     }
 
     return (
