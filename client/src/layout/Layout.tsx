@@ -13,11 +13,26 @@ const Layout = ({ children }: LayoutType) => {
     return (
         <>
             <Grid
-                templateAreas={`"header header"
-                  "nav main"
-                  "nav main"`}
+                templateAreas={[
+                    `"header header"
+                    "main main"
+                    "main main"
+                    `,
+                    `"header header"
+                    "main main"
+                    "main main"
+                    `,
+                    `"header header"
+                     "nav main"
+                    "nav main"`
+                ]}
                 gridTemplateRows={'auto 1fr'}
                 gridTemplateColumns={'250px 1fr'}
+                // templateAreas={`"header header"
+                //   "nav main"
+                //   "nav main"`}
+                // gridTemplateRows={'auto 1fr'}
+                // gridTemplateColumns={'250px 1fr'}
                 h='97vh'
                 // gap='1'
                 color='blackAlpha.700'
@@ -26,7 +41,7 @@ const Layout = ({ children }: LayoutType) => {
                 <GridItem pl='2' area={'header'} bg='gray.200'>
                     <Header />
                 </GridItem>
-                <GridItem px='2' bg='gray.100' area={'nav'}>
+                <GridItem display={['none', 'none', 'grid']} px='2' bg='gray.100' area={'nav'}>
                     <SideNav />
                 </GridItem>
                 <GridItem pl='2' area={'main'}

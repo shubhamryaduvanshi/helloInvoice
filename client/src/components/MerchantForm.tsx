@@ -84,7 +84,7 @@ const MerchantForm = () => {
             onOpen &&
             <AuthComponent onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
         }
-            <Box maxW={'sm'} m={'auto'} pt={'10'}>
+            <Box maxW={'sm'} m={'auto'} pt={[6, 6, 10]}>
                 {/* <Text fontSize={'2xl'} px={2} m={'auto'} mb={8} borderBottom={'1px'} w={'fit-content'}>
                     Merchant Info Form
                 </Text> */}

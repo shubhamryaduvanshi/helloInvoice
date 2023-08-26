@@ -4,6 +4,7 @@ import { useCustomerContext } from '../../core/contexts/customerContext';
 import { FaUser } from 'react-icons/fa';
 import { ProductListItemType } from '../../core/commonTypes';
 import { formatMobileNumber, getFormattedAmount } from '../../core/utility';
+import React, { forwardRef } from 'react';
 
 
 type HeaderProps = {
@@ -31,12 +32,13 @@ type FooterProps = {
     website: string
 }
 
-const Template2 = () => {
+const Template2 = forwardRef((props, ref) => {
     const { state } = useMerchantContext();
     const { customerState } = useCustomerContext();
 
     return (
-        <Container textTransform={'uppercase'} w={'full'} maxW={'container.lg'} boxShadow={'lg'} id='template-printable-content' pt={8} >
+        // @ts-ignore
+        <Container ref={ref} textTransform={'uppercase'} w={'full'} maxW={'container.lg'} boxShadow={'lg'} id='template-printable-content' pt={8} >
             <Header
                 merchantLogo={state.merchant_logo}
                 invoiceNumber='INV45454'
@@ -76,7 +78,7 @@ const Template2 = () => {
             />
         </Container>
     )
-}
+});
 
 const Header = ({ merchantLogo, invoiceNumber }: HeaderProps) => {
     return (<>
@@ -190,7 +192,7 @@ const Footer = ({ footNote, signUrl, address, mobile, website }: FooterProps) =>
                 <Tr>
                     <Td>{footNote}</Td> <Td></Td> <Td pb={1}><Image src={signUrl} h={8} w={20} objectFit={'cover'} /></Td>
                 </Tr>
-                <Tr>
+                <Tr mb={4}>
                     <Td p={0}></Td> <Td p={0}></Td> <Td p={1} fontSize={'sm'}>Authorised Sign.</Td>
                 </Tr>
             </Tbody>
@@ -199,13 +201,14 @@ const Footer = ({ footNote, signUrl, address, mobile, website }: FooterProps) =>
                 color={'white'}
                 fontSize={'xs'}>
                 <Tr>
-                    <Td>
+                    <Td w={'30%'}>
                         +91 {formatMobileNumber(mobile)}
                     </Td>
-                    <Td>
+                    <Td w={'40%'}>
+                        {address}
                     </Td>
                     <Td whiteSpace={'normal'}
-                        maxW={'100px'}
+                        maxW={'full'}
                         overflow={'hidden'}
                         textOverflow={'ellipsis'}>
                         {website}

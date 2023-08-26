@@ -7,25 +7,30 @@ import MerchantForm from '../components/MerchantForm';
 import CustomerForm from '../components/customer/CustomerForm';
 import { CustomerContextProvider } from '../core/contexts/customerContext';
 import { SCREEN_TO_SHOW } from '../core/enums';
-import { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { BsDownload, BsPrinter } from 'react-icons/bs';
 import { print } from '../core/utility';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { MdAdminPanelSettings } from 'react-icons/md';
 import InvoiceTemplateNotFound from '../components/templatesCollection/InvoiceTemplateNotFound';
+import ReactToPrint from 'react-to-print';
 
 
 const CreateInvoice = () => {
     const [moduleToShow, setModuleToShow] = useState<string>(SCREEN_TO_SHOW.MERCHANT_MODULE);
+    const [isShowMobilePreview, setIsShowMobilePreview] = useState<boolean>(false);
     let params = useParams();
+    const printableComponentRef = useRef(null);
 
     const renderInvoiceTemplate = () => {
         // Todo: Use memo 
         // Todo: Crate a custom hook for getting exact templates (useTemplate)
         switch (params.tId) {
-            case "template1": return <Template1 />;
-            case "template2": return <Template2 />;
+            // @ts-ignore
+            case "template1": return <Template1 ref={printableComponentRef} />;
+            // @ts-ignore
+            case "template2": return <Template2 ref={printableComponentRef} />;
             default: return <InvoiceTemplateNotFound />
         }
     }
@@ -56,9 +61,9 @@ const CreateInvoice = () => {
     return (
         <CustomerContextProvider>
             <Flex w='full' justifyContent={'space-evenly'} my={4} alignItems={'center'}>
-                <Flex gap={24} w={'32%'}>
+                <Flex gap={[4, 24]} w={['60%', '60%', '32%']} justifyContent={['initial']}>
                     <Flex
-                        p={2}
+                        p={[2]}
                         background={moduleToShow === SCREEN_TO_SHOW.MERCHANT_MODULE ? 'teal.500' : 'white'}
                         boxShadow={moduleToShow === SCREEN_TO_SHOW.MERCHANT_MODULE ? 'lg' : 'none'}
                         borderRadius={'lg'}
@@ -72,7 +77,9 @@ const CreateInvoice = () => {
                         cursor={'pointer'}
 
                     >
-                        <MdAdminPanelSettings size={34} />
+                        <Box display={['none', 'none', 'block']}>
+                            <MdAdminPanelSettings size={34} />
+                        </Box>
                         <Text as={'span'} fontSize={'xs'}>Merchant</Text>
                     </Flex>
                     <Flex
@@ -89,29 +96,34 @@ const CreateInvoice = () => {
                         onClick={handleScreenChange}
                         cursor={'pointer'}
                     >
-                        <AiOutlineUser size={34} />
+                        <Box display={['none', 'none', 'block']}>
+                            <AiOutlineUser size={34} />
+                        </Box>
                         <Text as={'span'} fontSize={'xs'}>Customer</Text>
                     </Flex>
 
                 </Flex>
-                <Flex w='20%'
-                    gap={20}
+                <Flex w={['30%', '20%']}
                 >
+                    <ReactToPrint
+                        trigger={() => <Button
+                            size={['sm', 'sm', 'md']}
+                            rightIcon={<BsDownload size={22} />} colorScheme='teal' variant='outline'>
+                            Print
+                        </Button>}
+                        content={() => printableComponentRef.current}
+                    />
 
-                    <Button onClick={handleDownload} rightIcon={<BsDownload size={22} />} colorScheme='teal' variant='outline'>
-                        Download Invoice
-                    </Button>
                 </Flex>
             </Flex>
-            <Flex justifyContent={'space-around'}>
-                <Box w='30%' style={{ transition: 'all 0.8s ease' }}>
+            <Flex justifyContent={'space-around'} flexDir={['column', 'column', 'row']}>
+                <Box w={['full', 'full', '30%']} px={4} style={{ transition: 'all 0.8s ease' }}>
                     {moduleToShow === SCREEN_TO_SHOW.MERCHANT_MODULE ?
                         <MerchantForm /> :
                         <CustomerForm />
                     }
-
                 </Box>
-                <Box w='50%' m='2'>
+                <Box w={['full', 'full', '50%']} m='2'                 >
                     {renderInvoiceTemplate()}
                 </Box>
             </Flex>

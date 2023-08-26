@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Box, Container, Flex, Image, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react'
+import { Box, Container, Flex, Image, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, forwardRef } from '@chakra-ui/react'
 import { BsBrowserChrome } from 'react-icons/bs';
 import { FaUser } from 'react-icons/fa';
 import { AiFillPhone } from 'react-icons/ai';
@@ -23,16 +23,13 @@ interface TotalAndOtherInfoComponentProps {
     totalAmount: number
 }
 
-const Template1 = () => {
+const Template1 = forwardRef((props, ref) => {
     // const { state.merchant_companyName, state.merchant_logo, state.merchant_address, state.merchant_mobile, state.merchant_website, state.merchant_signUrl, state.merchant_footNote }: MerchantContextValueType = useContext(UserContext);
     const { state } = useMerchantContext();
     const { customerState } = useCustomerContext();
-
-
-
     return (
         <>
-            <Container maxW={'container.md'} shadow={'lg'} p='0' id='template-printable-content' bgColor={'white'} >
+            <Container ref={ref} mt={4} maxW={'container.sm'} shadow={'lg'} id='template-printable-content' bgColor={'white'} >
                 {/* Header starts here */}
                 <Flex alignItems={'center'} gap={4} px='8' pt='4' pb='8' bgColor={'white'}>
                     <Box h={12} w={12}>
@@ -106,7 +103,7 @@ const Template1 = () => {
             </Container >
         </>
     )
-}
+})
 
 const ItemTable = ({ customerProductList }: ProductListItemType[] | [] | any) => {
     return (
