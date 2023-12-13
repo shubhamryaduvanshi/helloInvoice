@@ -5,6 +5,7 @@ import { FaUser } from 'react-icons/fa';
 import { ProductListItemType } from '../../core/commonTypes';
 import { formatMobileNumber, getFormattedAmount } from '../../core/utility';
 import React, { forwardRef } from 'react';
+import NoProductFound from '../NoProductFound';
 
 
 type HeaderProps = {
@@ -122,19 +123,9 @@ const CustomerBillingInfo = ({ name, address, mobile }: CustomerBillingInfoProps
 
 const ProductListing = ({ customerProductList }: ProductListItemType[] | [] | any) => {
 
-    const NoProductFound = () => {
-        return (
-            <Flex flexDir={'column'} bg={'teal.50'} borderRadius={5} border={'1px solid teal'} my={8} w='full' p={6} textAlign={'center'} color={'teal'}>
-                <Text fontWeight={'medium'}>No Product Found !</Text>
-                <Text fontSize={'xs'}>Please add atleast a single product</Text>
-            </Flex>
-        )
-    }
-
     if (!customerProductList.length) {
         return <NoProductFound />
     }
-
 
     return (
         <TableContainer mt='4' mb={8}>

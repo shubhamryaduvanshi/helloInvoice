@@ -9,6 +9,7 @@ import { formatMobileNumber, getFormattedAmount } from '../../core/utility';
 import { useMerchantContext } from '../../core/contexts/merchantContext';
 import { useCustomerContext } from '../../core/contexts/customerContext';
 import { ProductListItemType } from '../../core/commonTypes';
+import NoProductFound from '../NoProductFound';
 
 interface FooterComponentProps {
     mobileNumber: string,
@@ -31,36 +32,36 @@ const Template1 = forwardRef((props, ref) => {
         <>
             <Container ref={ref} mt={4} maxW={'container.sm'} shadow={'lg'} id='template-printable-content' bgColor={'white'} >
                 {/* Header starts here */}
-                <Flex alignItems={'center'} gap={4} px='8' pt='4' pb='8' bgColor={'white'}>
-                    <Box h={12} w={12}>
+                <Flex alignItems={'center'} gap={4} px={['2', '4', '8']} pt='4' pb='8' bgColor={'white'} w={'full'}>
+                    <Box minH={'50px'} minW={'50px'} maxH={12} maxW={12}>
                         <Image src={state.merchant_logo} alt='companyLogo' height={'100%'} width={'100%'} objectFit={'contain'} />
                     </Box>
-                    <Box>
-                        <Text fontWeight={'semibold'} fontSize={'2xl'}>{state.merchant_companyName}</Text>
-                        <Text w={72}> {state.merchant_address}</Text>
+                    <Box w={'auto'}>
+                        <Text fontWeight={'semibold'} fontSize={['xl', 'xl', '2xl']}>{state.merchant_companyName}</Text>
+                        <Text w={72} > {state.merchant_address}</Text>
                     </Box>
                 </Flex>
 
                 {/* Yellow Big Border Starts here */}
-                <Box w='full' bg={'yellow.400'} h='14' pr='12'>
-                    <Text bg={'white'} w='fit-content' ml='auto' px='4' fontSize={'6xl'}
+                <Box w='full' bg={'yellow.400'} h={14} pr={12}>
+                    < Text bg={'white'} w='fit-content' ml='auto' px='4' fontSize='6xl'
                         textTransform={'uppercase'}
                         pos={'relative'}
                         top={-4}
                     >
                         Invoice
                     </Text>
-                </Box>
+                </Box >
 
                 {/* Invoice Basic Info Starts here */}
-                <Box pt='10' px='8' bg={'white'}>
+                < Box pt='10' px={'8'} bg={'white'} >
                     <Text fontSize={'xl'} fontWeight={'semibold'}>
                         Invoice To:
                     </Text>
                     <Flex justifyContent={'space-between'}>
-                        <Box w='54'>
+                        <Box w={'60%'}>
                             <Flex fontWeight={'semibold'} alignItems={'center'} gap={2}><FaUser /> <Text>{customerState.customer_fullName}</Text></Flex>
-                            <Flex alignItems={'center'} gap={2}><MdLocationOn /> <Text>{customerState.customer_address}</Text></Flex>
+                            <Flex alignItems={'center'} gap={2}><MdLocationOn size={16} /> <Text>{customerState.customer_address}</Text></Flex>
                             <Flex alignItems={'center'} gap={2}><AiFillPhone /> <Text>+91 {formatMobileNumber(customerState.customer_mobile)}</Text></Flex>
                         </Box>
                         <Box>
@@ -74,31 +75,31 @@ const Template1 = forwardRef((props, ref) => {
                             </Flex>
                         </Box>
                     </Flex>
-                </Box>
+                </Box >
 
                 {/* Invoice Item Table Starts here */}
-                <Box px={'8'} mx='auto' pt='10' pb='8' bg={'white'}>
+                < Box px={'8'} mx='auto' pt='10' pb='8' bg={'white'} >
                     <ItemTable customerProductList={customerState.customer_product_list_items} />
-                </Box>
+                </Box >
 
                 {/* Invoice Final Price and Other Info Starts here */}
-                <Box pl='8' mx='auto' pt='10' bg={'white'} pb={'20'}>
+                < Box pl='8' mx='auto' pt='10' bg={'white'} pb={'20'} >
                     <TotalAndOtherInfo
                         subTotalAmt={customerState.customer_sub_total_amt}
                         ownerFootNote={state.merchant_footNote}
                         taxPercentage={customerState.customer_tax_percent}
                         totalAmount={customerState.customer_total_amt}
                     />
-                </Box>
+                </Box >
 
                 {/* Footer starts here */}
-                <Box bg={'white'} borderTop={'5px solid #ECC94B'} pos={'relative'}>
+                < Box bg={'white'} borderTop={'5px solid #ECC94B'} pos={'relative'} >
                     <Footer
                         mobileNumber={state.merchant_mobile}
                         webSite={state.merchant_website}
                         signature={state.merchant_signUrl}
                     />
-                </Box>
+                </Box >
 
             </Container >
         </>
@@ -106,24 +107,35 @@ const Template1 = forwardRef((props, ref) => {
 })
 
 const ItemTable = ({ customerProductList }: ProductListItemType[] | [] | any) => {
+
+    if (!customerProductList.length) {
+        return <NoProductFound />
+    }
+
     return (
         <TableContainer >
             <Table variant='striped'>
                 <Thead bg={'gray.700'}>
                     <Tr>
-                        <Th color={'white'} fontSize={'sm'} fontWeight={'medium'}>Sr No.</Th>
+                        <Th color={'white'} fontSize={'sm'} fontWeight={'medium'} pr={0} pl={2}>Sr.</Th>
                         <Th color={'white'} fontSize={'sm'} fontWeight={'medium'}>Item Description</Th>
                         <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Price</Th>
                         <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Qty</Th>
                         <Th isNumeric color={'white'} fontSize={'sm'} fontWeight={'medium'}>Total</Th>
                     </Tr>
                 </Thead>
-                <Tbody>
+                <Tbody fontSize={'sm'}>
                     {
                         customerProductList && customerProductList.map((item: ProductListItemType, index: number) => (
                             <Tr key={item.id}>
-                                <Td>{index + 1}</Td>
-                                <Td textTransform={'capitalize'}>{item.title}</Td>
+                                <Td pl={3} pr={1} w={'fit-content'}>{index + 1}</Td>
+                                <Td
+                                    textTransform={'capitalize'}
+                                    whiteSpace={'normal'}
+                                    maxW={'10px'}
+                                    w={'full'}
+                                    overflow={'hidden'}
+                                    textOverflow={'ellipsis'}>{item.title}</Td>
                                 <Td isNumeric>{getFormattedAmount(item.price)}</Td>
                                 <Td isNumeric>{item.quantity}</Td>
                                 <Td isNumeric>{getFormattedAmount(item.totalPrice)}</Td>
@@ -146,15 +158,9 @@ const ItemTable = ({ customerProductList }: ProductListItemType[] | [] | any) =>
                     </Tr> */}
 
                 </Tbody>
-                {/* <Tfoot>
-                    <Tr>
-                        <Th>To convert</Th>
-                        <Th>into</Th>
-                        <Th isNumeric>multiply by</Th>
-                    </Tr>
-                </Tfoot> */}
+
             </Table>
-        </TableContainer>
+        </TableContainer >
     )
 }
 
@@ -192,9 +198,9 @@ const TotalAndOtherInfo = ({ ownerFootNote, subTotalAmt, taxPercentage, totalAmo
 const Footer = ({ mobileNumber, webSite, signature }: FooterComponentProps) => {
     return (
         <>
-            <Flex flexDir={'column'} pos={'absolute'} top={-12} right={12} px='6' bg='white'>
+            <Flex flexDir={'column'} pos={'absolute'} top={-14} right={4} px='4' bg='white'>
                 <Image src={signature} alt='sign' h={'12'} w='24' objectFit={'contain'} mx={'auto'} />
-                <Text pos={'relative'} zIndex={'docked'} borderTop={'3px solid'} borderColor={'gray.700'} px='8' bg={'white'} w='fit-content' color={'gray.600'}>Authorised Sign</Text>
+                <Text pos={'relative'} zIndex={'docked'} borderTop={'2px solid'} borderColor={'gray.700'} px='8' bg={'white'} w='fit-content' mt={1} color={'gray.600'}>Authorised Sign</Text>
             </Flex>
             {/* Bottom infos */}
             <Flex gap={4} pb='2' alignItems={'center'} px='8' pt='2'>

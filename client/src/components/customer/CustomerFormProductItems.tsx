@@ -83,7 +83,7 @@ export const CustomerFormProductList = () => {
                     />
                 </Box>
                 <Box >
-                    <Text fontSize={'sm'} mb='0.5'>Product Price:</Text>
+                    <Text fontSize={'sm'} mb='0.5'>Product Price (₹/unit):</Text>
                     <InputGroup>
                         <InputLeftAddon children={"₹"} h={'auto'} fontSize={'sm'} />
                         <Input size={'sm'} type="number" value={productPrice}

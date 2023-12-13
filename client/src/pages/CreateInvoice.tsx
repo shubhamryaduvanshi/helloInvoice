@@ -123,7 +123,7 @@ const CreateInvoice = () => {
                         <CustomerForm />
                     }
                 </Box>
-                <Box w={['full', 'full', '50%']} m='2'                 >
+                <Box w={['full', 'full', '50%']} m={[0, 0, '2']}               >
                     {renderInvoiceTemplate()}
                 </Box>
             </Flex>

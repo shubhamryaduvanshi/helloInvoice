@@ -153,10 +153,7 @@ export const AuthComponent = ({ onOpen, isOpen, onClose }: LoginComponentType) =
                                 </Box>
                             </Stack>
                         </Flex>
-
                     </ModalBody>
-
-
                 </ModalContent>
             </Modal>
         </>
